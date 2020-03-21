@@ -1,0 +1,77 @@
+<html>
+<head>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) { 
+  
+	const canvas = document.getElementById('canvas');
+	const ctx = canvas.getContext('2d');
+
+	ctx.fillStyle = 'black';
+	ctx.fillRect(0, 0, 750, 750);
+	const canvasLength = 750;
+	
+	
+	function drawCoordinates(x,y){
+		var pointSize = 2; // Change according to the size of the point.
+		var ctx = document.getElementById("canvas").getContext("2d");
+
+		ctx.fillStyle = "#ff2626"; // Red color
+		ctx.beginPath(); //Start path
+		ctx.arc(x, y, pointSize, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+		ctx.fill(); // Close the path and fill.
+	}
+	
+	// triangle size
+	const l = canvasLength - 100;
+	
+	// lower left
+	const p1 = {
+		x: 50,
+		y: canvasLength -50
+	};
+	
+	const p2 = {
+		x: 50 + l,
+		y: canvasLength -50
+	};	
+	
+	const p3 = {
+		x: 50 + l/2,
+		y: canvasLength -50 - (Math.sqrt(3) * l/2)
+	};	
+	
+	// Triangle points
+	drawCoordinates(p1.x,p1.y);
+	drawCoordinates(p2.x,p2.y);
+	drawCoordinates(p3.x,p3.y);
+	
+	function randEdge() {
+		const r= Math.random();
+		if (r <= 0.33) return p1;
+		if (r <= 0.66) return p2;
+		return p3;
+	}
+	
+	function prog(p) {
+		const dir = randEdge();
+		return {
+			x: (p.x + dir.x)/2,
+			y: (p.y + dir.y)/2
+		}
+	}
+	
+	let last = p1;
+	
+	setInterval(function() { 
+		last = prog(last)
+		drawCoordinates(last.x,last.y);
+	}, 1);
+
+});
+</script>
+</head>
+<body>
+<canvas id="canvas" width="750" height="750"></canvas>
+</body>
+</html>
+
